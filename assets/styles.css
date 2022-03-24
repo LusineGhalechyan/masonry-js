@@ -2,19 +2,16 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box; }
-  body ul {
+  body ul,
+  body li {
     margin: 0;
     padding: 0;
-    list-style-type: none;
-    position: relative; }
+    list-style-type: none; }
   body .masonry {
-    position: fixed;
-    top: 0;
-    left: 0;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     height: 100%;
-    overflow: scroll;
-    padding: 10px;
     background-color: red; }
+    body .masonry .masonry__image {
+      vertical-align: top; }

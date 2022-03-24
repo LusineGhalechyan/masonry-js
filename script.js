@@ -1,10 +1,7 @@
-var columnWidth = 200;
-
-var layoutOptions =
+var masonry = new Masonry(
   (".masonry",
   {
-    columnWidth,
-    autoResize: true | false,
-  });
-
-var masonry = new Masonry(layoutOptions);
+    columnWidth: 200,
+    autoResize: true,
+  })
+);

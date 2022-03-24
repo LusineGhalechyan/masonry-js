@@ -127,23 +127,34 @@ $gap: 10px;
 body {
   @include reset(0);
   box-sizing: border-box;
-  ul {
+  // li {
+  //   height: 100%;
+  // }
+  ul,
+  li {
     @include reset(0);
     list-style-type: none;
-    position: relative;
+    // position: relative;
+    // height: 100%;
   }
   .masonry {
-    position: fixed;
-    top: 0;
-    left: 0;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
     display: $flex;
     flex-wrap: wrap;
     width: $absWidth;
     height: 100%;
-    overflow: scroll;
-    padding: 10px;
+    // overflow: scroll;
+    // padding: 10px;
     background-color: red;
-    .masonry__item {
+    // gap: 10px;
+    // .masonry__item {
+    //   @include reset(0);
+    //   border: 2px solid blue;
+    .masonry__image {
+      vertical-align: top;
     }
+    // }
   }
 }
