@@ -148,13 +148,13 @@ body {
     // overflow: scroll;
     // padding: 10px;
     background-color: red;
-    // gap: 10px;
-    // .masonry__item {
-    //   @include reset(0);
-    //   border: 2px solid blue;
-    .masonry__image {
-      vertical-align: top;
+    // gap: $gap;
+    .masonry__item {
+      //   @include reset(0);
+      //   border: 2px solid blue;
+      .masonry__image {
+        vertical-align: top;
+      }
     }
-    // }
   }
 }

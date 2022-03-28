@@ -13,5 +13,5 @@ body {
     width: 100%;
     height: 100%;
     background-color: red; }
-    body .masonry .masonry__image {
+    body .masonry .masonry__item .masonry__image {
       vertical-align: top; }
