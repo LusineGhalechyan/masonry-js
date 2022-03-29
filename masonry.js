@@ -1,34 +1,47 @@
 function Masonry(className, layoutOptions) {
   this.className = className;
   this.layoutOptions = layoutOptions;
-  Masonry.prototype.render(className, layoutOptions);
+  this.containerImgs(className);
+  this.getMinHeightImgAndIndex(className);
+  this.render(className, layoutOptions);
 }
 
 // var images = JSON.parse(localStorage.getItem("images"));
 
-function getMinHeightImgAndIndex() {
-  var allImgs = document.querySelectorAll("img");
-  var minHeight = allImgs[0].clientHeight;
-  var minHeightImage = allImgs[0];
-  var minImgAndIndex = {};
+Masonry.prototype.containerImgs = function (className) {
+  var container = document.querySelector(className);
+  if (container) {
+    return container.querySelectorAll("img");
+  }
+};
 
-  for (i = 1; i < allImgs.length; i++) {
-    if (allImgs[i].clientHeight < minHeight) {
-      minHeight = allImgs[i].clientHeight;
-      minHeightImage = allImgs[i];
-      minImgAndIndex[`${i}`] = minHeightImage;
+Masonry.prototype.getMinHeightImgAndIndex = function (className) {
+  var allImgs = Masonry.prototype.containerImgs(className);
+  if (allImgs) {
+    var minHeight = allImgs[0].clientHeight;
+    var minHeightImage = allImgs[0];
+    var minImgAndIndex = {};
+  }
+
+  if (allImgs) {
+    for (i = 1; i < allImgs.length; i++) {
+      if (allImgs[i].clientHeight < minHeight) {
+        minHeight = allImgs[i].clientHeight;
+        minHeightImage = allImgs[i];
+        minImgAndIndex[`${i}`] = minHeightImage;
+      }
     }
   }
+
   return minImgAndIndex;
-}
+};
 
 Masonry.prototype.render = function (className, layoutOptions) {
   var innerWidth = window.innerWidth;
   var columnQty = parseInt(innerWidth / layoutOptions.columnWidth);
 
   document.addEventListener("DOMContentLoaded", function () {
-    var allImgs = document.querySelectorAll("img");
-
+    var allImgs = Masonry.prototype.containerImgs(className);
     var imgWidth = parseInt(innerWidth / columnQty);
     allImgs.forEach((img) => img.setAttribute("width", imgWidth));
   });
@@ -36,17 +49,29 @@ Masonry.prototype.render = function (className, layoutOptions) {
   window.addEventListener(
     "resize",
     () => {
-      var allImgs = document.querySelectorAll("img");
-      var columnQty = parseInt(innerWidth / layoutOptions.columnWidth);
+      const handle = setTimeout(() => {
+        var allImgs = Masonry.prototype.containerImgs(className);
+        var columnQty = parseInt(innerWidth / layoutOptions.columnWidth);
 
-      for (let i = 0; i < allImgs.length; i++) {
-        var res = getMinHeightImgAndIndex();
-        var getResKey = Object.keys(res)[0];
-        var getMinHeightImg = document.querySelectorAll("img")[getResKey];
-        var getRightestEl = document.querySelectorAll("img")[columnQty - 1];
+        for (let i = 0; i < allImgs.length; i++) {
+          var getMinHeightImgAndIndex =
+            masonry.__proto__.getMinHeightImgAndIndex(className);
 
-        getMinHeightImg.after(getRightestEl);
-      }
+          var getMinHeightImgKey =
+            getMinHeightImgAndIndex && Object.keys(getMinHeightImgAndIndex)[0];
+          var getAllImgs = Masonry.prototype.containerImgs(className);
+
+          var getMinHeightImg = getAllImgs[getMinHeightImgKey];
+
+          var getRightestEl = getAllImgs[columnQty - 1];
+
+          // getMinHeightImg.after(getRightestEl);
+        }
+      }, 1000);
+
+      return () => {
+        clearTimeout(handle);
+      };
     },
     layoutOptions.autoResize
   );

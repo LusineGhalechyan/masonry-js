@@ -8,6 +8,7 @@ body {
     padding: 0;
     list-style-type: none; }
   body .masonry {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
