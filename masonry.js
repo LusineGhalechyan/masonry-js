@@ -1,26 +1,44 @@
 function Masonry(className, layoutOptions) {
   this.className = className;
   this.layoutOptions = layoutOptions;
-  this.containerImgs(className);
-  this.getMinHeightImgAndIndex(className);
-  this.render(className, layoutOptions);
+  this.render();
+  if (this.layoutOptions.autoResize) {
+    window.addEventListener("resize", this.onResize);
+  }
 }
 
 // var images = JSON.parse(localStorage.getItem("images"));
 
-Masonry.prototype.containerImgs = function (className) {
-  var container = document.querySelector(className);
-  if (container) {
-    return container.querySelectorAll("img");
+Masonry.prototype.onResize = function () {
+  clearTimeout(this.resizeTimer);
+  this.resizeTimer = setTimeout(() => {
+    this.render();
+  }, 300);
+};
+
+Masonry.prototype.destroy = function () {
+  if (this.layoutOptions.autoResize) {
+    window.removeEventListener("resize", this.onResize);
   }
 };
 
-Masonry.prototype.getMinHeightImgAndIndex = function (className) {
-  var allImgs = Masonry.prototype.containerImgs(className);
+Masonry.prototype.containerImgs = function () {
+  if (this.allImgs) {
+    return this.allImgs;
+  }
+  container = document.querySelector(this.className);
+  if (container) {
+    this.allImgs = container.querySelectorAll("img");
+    return this.allImgs;
+  }
+};
+
+Masonry.prototype.getMinHeightImgAndIndex = function () {
+  allImgs = this.containerImgs();
   if (allImgs) {
-    var minHeight = allImgs[0].clientHeight;
-    var minHeightImage = allImgs[0];
-    var minImgAndIndex = {};
+    minHeight = allImgs[0].clientHeight;
+    minHeightImage = allImgs[0];
+    minHeightImg = {};
   }
 
   if (allImgs) {
@@ -28,51 +46,64 @@ Masonry.prototype.getMinHeightImgAndIndex = function (className) {
       if (allImgs[i].clientHeight < minHeight) {
         minHeight = allImgs[i].clientHeight;
         minHeightImage = allImgs[i];
-        minImgAndIndex[`${i}`] = minHeightImage;
+        minHeightImg[`${i}`] = [minHeightImage, minHeight];
       }
     }
   }
 
-  return minImgAndIndex;
+  return minHeightImg;
 };
 
-Masonry.prototype.render = function (className, layoutOptions) {
-  var innerWidth = window.innerWidth;
-  var columnQty = parseInt(innerWidth / layoutOptions.columnWidth);
+Masonry.prototype.render = function () {
+  layoutOptions = this.layoutOptions;
+  columnWidth = layoutOptions.columnWidth;
+  innerWidth = window.innerWidth;
+  allImgs = this.containerImgs();
 
-  document.addEventListener("DOMContentLoaded", function () {
-    var allImgs = Masonry.prototype.containerImgs(className);
-    var imgWidth = parseInt(innerWidth / columnQty);
-    allImgs.forEach((img) => img.setAttribute("width", imgWidth));
-  });
-
-  window.addEventListener(
-    "resize",
-    () => {
-      const handle = setTimeout(() => {
-        var allImgs = Masonry.prototype.containerImgs(className);
-        var columnQty = parseInt(innerWidth / layoutOptions.columnWidth);
-
-        for (let i = 0; i < allImgs.length; i++) {
-          var getMinHeightImgAndIndex =
-            masonry.__proto__.getMinHeightImgAndIndex(className);
-
-          var getMinHeightImgKey =
-            getMinHeightImgAndIndex && Object.keys(getMinHeightImgAndIndex)[0];
-          var getAllImgs = Masonry.prototype.containerImgs(className);
-
-          var getMinHeightImg = getAllImgs[getMinHeightImgKey];
-
-          var getRightestEl = getAllImgs[columnQty - 1];
-
-          // getMinHeightImg.after(getRightestEl);
-        }
-      }, 1000);
-
-      return () => {
-        clearTimeout(handle);
-      };
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+      imgWidth = columnWidth;
+      allImgs.forEach((img) => img.setAttribute("width", imgWidth));
     },
-    layoutOptions.autoResize
+    { once: true }
   );
+
+  return;
+
+  var handle;
+  if (this.layoutOptions.autoResize) {
+    window.addEventListener(
+      "resize",
+      () => {
+        clearTimeout(handle);
+        handle = setTimeout(() => {
+          this.positionGridImages();
+          columnQty = parseInt(innerWidth / layoutOptions.columnWidth);
+
+          for (let i = 0; i < allImgs.length; i++) {
+            getMinHeightImg = this.getMinHeightImgAndIndex();
+
+            getMinHeightImgKey =
+              getMinHeightImg && Object.keys(getMinHeightImg)[0];
+
+            console.log(`getMinHeightImgKey`, getMinHeightImgKey);
+            getPrevImgsWidth = getMinHeightImgKey * columnWidth;
+            sumTheWidthOfMinHeightImgPrevImgs = getPrevImgsWidth.toString();
+            getMinHeight = getMinHeightImg[getMinHeightImgKey][1].toString();
+            getRightestEl = allImgs[columnQty - 1];
+
+            getRightestEl.style["position"] = "relative";
+            getRightestEl.style[
+              "left"
+            ] = `${sumTheWidthOfMinHeightImgPrevImgs}px`;
+            getRightestEl.style["top"] = `${getMinHeight}px`;
+
+            // getMinHeightImg.after(getRightestEl);
+          }
+        }, 300);
+      }
+      // layoutOptions.autoResize
+    );
+  }
 };

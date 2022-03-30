@@ -1,160 +1,49 @@
-// @mixin reset($value) {
-//   margin: $value;
-//   padding: $value;
-// }
-
-// body {
-//   @include reset(0);
-//   box-sizing: border-box;
-//   .masonry {
-//     padding: 10px;
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100vh;
-//     overflow-y: scroll;
-//     ul {
-//       @include reset(0);
-//       list-style-type: none;
-//       position: relative;
-//     }
-//     ul li {
-//       display: inline-block;
-//     }
-//     .masonry__container {
-//       width: auto;
-//       position: relative;
-//       display: flex;
-//       flex-direction: column; // SEE
-//       flex-wrap: wrap;
-//       // flex-flow: row wrap;
-//       gap: 10px;
-//       background-color: red;
-//       padding: 100px 2vw;
-//       .masonry__item {
-//         flex: 1;
-//         width: 200px; // SEE AFTERWARDS
-//       }
-//     }
-//   }
-//   //   overflow: hidden;
-//   // .masonry {
-//   //   @include reset(0);
-//   //   width: 100%;
-//   //   height: 100vh;
-//   //   position: fixed;
-//   //   // top: 0;
-//   //   // left: 0;
-//   //   overflow: scroll;
-//   //   .masonry > ul li {
-//   //     // list-style-type: none; // isn't working
-//   //     ul {
-//   //       padding: 0;
-//   //       list-style-type: none;
-//   //       font-size: 30px;
-//   //       .masonary__container {
-//   //         position: relative;
-//   //         width: 100%;
-//   //         display: flex;
-//   //         // gap: 10px;
-//   //         .masonry__item {
-//   //           flex: 1;
-//   //           display: flex;
-//   //           //   flex-direction: column; // see again
-//   //           width: 200px;
-//   //           padding: 100px 2vw;
-
-//   //           //   gap: 10px; // isn't working
-//   //         }
-//   //       }
-//   //     }
-//   //   }
-//   // }
-// }
-
-// $flex: flex;
+$flex: flex;
 // $absWidth: 100%;
 // $gap: 10px;
-
-// @mixin reset($value) {
-//   margin: $value;
-//   padding: $value;
-// }
-
-// body {
-//   @include reset(0);
-//   box-sizing: border-box;
-//   .masonry {
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     display: $flex;
-//     width: $absWidth;
-//     height: 100%;
-//     overflow: scroll;
-//     padding: 10px;
-//     .masonry__container {
-//       // position: relative;
-//       width: $absWidth;
-//       display: $flex;
-//       gap: $gap;
-//       padding: 100px 38px;
-//       .masonry__column {
-//         flex: 1;
-//         display: $flex;
-//         flex-direction: column;
-//         width: 200px; //SEE AFTERWARDS
-//         gap: $gap;
-//         .masonry__image {
-//           width: $absWidth;
-//           // position: relative;
-//         }
-//       }
-//     }
-//   }
-// }
-
-$flex: flex;
-$absWidth: 100%;
-$gap: 10px;
 
 @mixin reset($value) {
   margin: $value;
   padding: $value;
 }
 
+@mixin position($value) {
+  @if $value == absolute {
+    position: absolute;
+  } @else {
+    position: relative;
+  }
+}
+
 body {
   @include reset(0);
   box-sizing: border-box;
-  // li {
-  //   height: 100%;
-  // }
   ul,
   li {
     @include reset(0);
     list-style-type: none;
-    // position: relative;
-    // height: 100%;
   }
   .masonry {
-    // position: fixed;
-    // top: 0;
-    // left: 0;
-    position: relative;
+    @include position(relative);
+    overflow: hidden;
     display: $flex;
     flex-wrap: wrap;
-    width: $absWidth;
-    height: 100%;
-    // overflow: scroll;
-    // padding: 10px;
+    // width: $absWidth;
+    // height: 100%;
     background-color: red;
+
     // gap: $gap;
     .masonry__item {
-      //   @include reset(0);
-      //   border: 2px solid blue;
+      // @include position(absolute);
+      overflow: hidden;
+      display: block;
+
+      // @extend .absPosition;
       .masonry__image {
+        // @extend .position;
+        // top: 100;
         vertical-align: top;
+        // display: inline-block;
       }
     }
   }
