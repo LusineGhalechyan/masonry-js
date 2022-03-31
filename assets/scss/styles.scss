@@ -1,5 +1,5 @@
 $flex: flex;
-// $absWidth: 100%;
+$absWidth: 100%;
 // $gap: 10px;
 
 @mixin reset($value) {
@@ -17,7 +17,6 @@ $flex: flex;
 
 body {
   @include reset(0);
-  box-sizing: border-box;
   ul,
   li {
     @include reset(0);
@@ -25,25 +24,13 @@ body {
   }
   .masonry {
     @include position(relative);
-    overflow: hidden;
     display: $flex;
     flex-wrap: wrap;
-    // width: $absWidth;
-    // height: 100%;
     background-color: red;
-
     // gap: $gap;
     .masonry__item {
-      // @include position(absolute);
-      overflow: hidden;
-      display: block;
-
-      // @extend .absPosition;
-      .masonry__image {
-        // @extend .position;
-        // top: 100;
-        vertical-align: top;
-        // display: inline-block;
+      .masonry__image {       
+        vertical-align: top;        
       }
     }
   }

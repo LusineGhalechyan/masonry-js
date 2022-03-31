@@ -1,7 +1,6 @@
 body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box; }
+  padding: 0; }
   body ul,
   body li {
     margin: 0;
@@ -9,12 +8,8 @@ body {
     list-style-type: none; }
   body .masonry {
     position: relative;
-    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
     background-color: red; }
-    body .masonry .masonry__item {
-      overflow: hidden;
-      display: block; }
-      body .masonry .masonry__item .masonry__image {
-        vertical-align: top; }
+    body .masonry .masonry__item .masonry__image {
+      vertical-align: top; }
