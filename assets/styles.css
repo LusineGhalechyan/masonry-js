@@ -9,7 +9,6 @@ body {
   body .masonry {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
-    background-color: red; }
+    flex-wrap: wrap; }
     body .masonry .masonry__item .masonry__image {
       vertical-align: top; }

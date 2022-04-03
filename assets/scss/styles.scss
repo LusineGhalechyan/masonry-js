@@ -1,5 +1,6 @@
 $flex: flex;
 $absWidth: 100%;
+// $width: 90%;
 // $gap: 10px;
 
 @mixin reset($value) {
@@ -25,13 +26,13 @@ body {
   .masonry {
     @include position(relative);
     display: $flex;
+    // width: $width;
     flex-wrap: wrap;
-    background-color: red;
     // gap: $gap;
     .masonry__item {
       .masonry__image {       
-        vertical-align: top;        
+        vertical-align: top;  
+      }
       }
     }
   }
-}
