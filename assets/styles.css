@@ -10,5 +10,7 @@ body {
     position: relative;
     display: flex;
     flex-wrap: wrap; }
-    body .masonry .masonry__item .masonry__image {
-      vertical-align: top; }
+    body .masonry .masonry__item li {
+      transform-style: preserve-3d; }
+      body .masonry .masonry__item li:animate .masonry__image {
+        vertical-align: top; }

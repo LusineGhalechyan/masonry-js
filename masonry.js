@@ -2,6 +2,8 @@ function Masonry(className, layoutOptions) {
   this.className = className;
   this.layoutOptions = layoutOptions;
   this.render();
+  this.onResize();
+  this.destroy();
 }
 
 Masonry.prototype.containerImgs = function () {
@@ -45,7 +47,6 @@ Masonry.prototype.render = function () {
   var iterImgHeights = sliceImgs.map((e) => e.clientHeight);
 
   for (let j = 0; j < allImgs.length; j += columnQty) {
-    // if (sliceImgs.length == 0) break;
     var indexes = this.getMinHeightIndexes(iterImgHeights);
     for (let i = 0; i < indexes.length; i++) {
       var currEl = allImgs[i + j + columnQty];
@@ -59,22 +60,18 @@ Masonry.prototype.render = function () {
   }
 };
 
-if (this.layoutOptions.autoResize) {
-  window.addEventListener("resize", () => {
-    this.onResize;
-  });
-}
-
 Masonry.prototype.onResize = function () {
-  alert(`hello`);
   clearTimeout(this.resizeTimer);
   this.resizeTimer = setTimeout(() => {
-    this.render();
+    if (this.layoutOptions.autoResize) {
+      window.addEventListener("resize", () => {
+        this.render();
+      });
+    }
   }, 300);
 };
 
 Masonry.prototype.destroy = function () {
-  alert(`hello`);
   if (this.layoutOptions.autoResize) {
     window.removeEventListener("resize", this.onResize);
   }
