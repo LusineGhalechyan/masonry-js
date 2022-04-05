@@ -41,15 +41,22 @@ Masonry.prototype.render = function () {
   var innerWidth =
     document.querySelector(this.className).clientWidth || window.innerWidth;
   var allImgs = Array.from(this.containerImgs());
-  var columnQty = parseInt(innerWidth / imgWidth);
-  var sliceImgs = allImgs.slice(0, columnQty);
-  sliceImgs.forEach((img) => img.setAttribute("width", imgWidth));
-  var iterImgHeights = sliceImgs.map((e) => e.clientHeight);
+  this.columnQty = parseInt(innerWidth / imgWidth);
 
-  for (let j = 0; j < allImgs.length; j += columnQty) {
+  this.sliceImgs = allImgs.slice(0, this.columnQty);
+
+  this.sliceImgs.forEach((img, index) => {
+    img.setAttribute("width", imgWidth);
+    img.style["position"] = "absolute";
+    img.style["left"] = `${index * imgWidth}px`;
+    img.style["top"] = `0px`;
+  });
+
+  var iterImgHeights = this.sliceImgs.map((e) => e.clientHeight);
+  for (let j = 0; j < allImgs.length; j += this.columnQty) {
     var indexes = this.getMinHeightIndexes(iterImgHeights);
     for (let i = 0; i < indexes.length; i++) {
-      var currEl = allImgs[i + j + columnQty];
+      var currEl = allImgs[i + j + this.columnQty];
       if (!currEl) continue;
       currEl.setAttribute("width", imgWidth);
       currEl.style["position"] = "absolute";
